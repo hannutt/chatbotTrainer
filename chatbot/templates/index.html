@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {%load static%}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <h3>Chatbot Trainer</h3>
+
+    <br>
+    <center>
+        <div>
+            <p class="botAnswer">{{resp}}</p>
+            <img src="/static/icons/robot256px.png" height="150" width="150">
+        </div>
+    </center>
+    <div id="trainBot">
+        <h4>Train your bot</h4>
+        <form method="post" action="/trainbot/" id="train">
+            <script>
+                $(function () {
+                    $("#train").submit(function (event) {
+                        // Stop form from submitting normally
+                        event.preventDefault();
+                        var trainForm = $(this);
+                        // Send the data using post
+                        var posting = $.post(trainForm.attr('action'), trainForm.serialize());
+                        // if success:
+                        posting.done(function (data) {
+                        });
+                        // if failure:
+                        posting.fail(function (data) {
+                            // 4xx or 5xx response, alert user about failure
+                        });
+                    });
+                });
+            </script>
+            {%csrf_token %}
+            <textarea type="text" name="data"></textarea>
+            <input type="submit" value="Save">
+        </form>
+        <br>
+        <form method="post" action="/loadData/" id="talkForm" enctype="multipart/form-data">
+            {%csrf_token %}
+            <input type="file" id="loadfile" name="loadfile">
+            <input type="submit" value="Load">
+        </form>
+        <center>
+            <form method="post" action="/discuss/">
+                {%csrf_token %}
+                <input type="text" name="talk" id="talk">
+                <input type="submit" value="Discuss">
+            </form>
+        </center>
+
+        </form>
+    </div>
+</body>
+
+</html>
