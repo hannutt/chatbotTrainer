@@ -10,7 +10,7 @@ def startingPage(request):
 
 
 def returnCB():
-    cb=ChatBot('Norman')
+    cb=ChatBot('Norman',storage_adapter='chatterbot.storage.SQLStorageAdapter', database_uri='sqlite:///database.sqlite3')
     return cb
 
 #tiedosto tuodaan frontista javascript input filen avulla ja talletetaan python funktion
@@ -36,11 +36,13 @@ def trainBot(request):
 
 def loadData(request):
      cb=returnCB()
+     #valittu tiedosto
      file=request.FILES['loadfile']
      fs = FileSystemStorage()
-     filename = fs.path(file.name)
-     print(filename)
+     #valitun tiedoston tallennus juurikansioon
+     filename = fs.save(file.name,file)
      datalist=[]
+     #tiedoston avaus ja läpikäynti silmukalla
      f=open(filename,'r')
      for line in f:
          datalist.append(line)
