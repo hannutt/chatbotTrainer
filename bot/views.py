@@ -22,14 +22,15 @@ def uploadFile(request):
     
     return render(request,'index.html')
 
-#tallennetaan textarea elementtiin kirjoitettu sisältö tekstitiedostoon.
+#välittää käyttäjän syötteet botille harjoitusmateriaaliksi.
 def trainBot(request):
-    now = datetime.now()
-    lf = now.strftime("%H%M%S")
-    print(os.getcwd())
+    cb=returnCB()
     data=request.POST['data']
-    file=open(f"{os.getcwd()}\\data{lf}.txt","w")
-    file.write(data)
+    #luodaan splitillä lista , merkillä erotetaan merkit omiksi alkioiksi
+    datalist=data.split(",")
+    trainer=ListTrainer(cb)
+    trainer.train(datalist)
+    
     return render(request,'index.html')
 
 
