@@ -6,20 +6,33 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script type="text/javascript"
+        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 </head>
 
 <body>
-    <h3>Chatbot Trainer</h3>
+    <span class="notranslate">
+        <h3>Chatbot Trainer</h3>
+    </span>
+    <div id="google_translate_element"></div>
+    <script type="text/javascript">
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL }, 'google_translate_element');
+        }
+    </script>
 
     <br>
     <center>
         <div>
+
             <p class="botAnswer">{{resp}}</p>
             <img src="/static/icons/robot256px.png" height="150" width="150">
         </div>
     </center>
     <div id="trainBot">
-        <h4>Train your bot</h4>
+        <span class="notranslate">
+            <h4>Train your bot</h4>
+        </span>
         <form method="post" action="/trainbot/" id="train">
             <script>
                 $(function () {
@@ -40,25 +53,35 @@
                 });
             </script>
             {%csrf_token %}
-            <textarea type="text" name="data"></textarea>
-            <input type="submit" value="Save">
-        </form>
-        <br>
-        <form method="post" action="/loadData/" id="talkForm" enctype="multipart/form-data">
-            {%csrf_token %}
-            <input type="file" id="loadfile" name="loadfile">
-            <input type="submit" value="Load">
-        </form>
-        <center>
-            <form method="post" action="/discuss/">
-                {%csrf_token %}
-                <input type="text" name="talk" id="talk">
-                <input type="submit" value="Discuss">
-            </form>
-        </center>
-
+            </span>
+            <span class="translate">
+                <textarea type="text" id="data" name="data"></textarea>
+            </span>
+            <span class="notranslate">
+                <input type="submit" value="Save">
+            </span>
         </form>
     </div>
+    <br>
+    <form method="post" action="/loadData/" id="talkForm" enctype="multipart/form-data">
+        {%csrf_token %}
+        <input type="file" id="loadfile" name="loadfile">
+        <span class="notranslate">
+            <input type="submit" value="Load">
+        </span>
+    </form>
+    <center>
+        <form method="post" action="/discuss/">
+            {%csrf_token %}
+            <input type="text" name="talk" id="talk">
+            <span class="notranslate">
+                <input type="submit" value="Discuss">
+            </span>
+        </form>
+    </center>
+
+    </form>
+
 </body>
 
 </html>

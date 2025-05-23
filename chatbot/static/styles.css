@@ -5,3 +5,6 @@
     font-size: larger;
     
 }
+.robotAnswer{
+    display: flex;
+}

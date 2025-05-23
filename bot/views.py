@@ -1,9 +1,10 @@
 from datetime import datetime
 from django.shortcuts import render
 from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
-import os
+from chatterbot.trainers import ListTrainer
+import os,pathlib
 from django.core.files.storage import FileSystemStorage
+from pypdf import PdfReader
 # Create your views here.
 def startingPage(request):
     return render(request,"index.html")
@@ -33,24 +34,44 @@ def trainBot(request):
     
     return render(request,'index.html')
 
-
+#valitun tiedoston sisällön luku
 def loadData(request):
      cb=returnCB()
      #valittu tiedosto
      file=request.FILES['loadfile']
-     fs = FileSystemStorage()
+     filestr=str(file)
+     file_extension = pathlib.Path(filestr).suffix
+     if file_extension==".txt":
+        fs = FileSystemStorage()
      #valitun tiedoston tallennus juurikansioon
-     filename = fs.save(file.name,file)
-     datalist=[]
+        filename = fs.save(file.name,file)
+        datalist=[]
      #tiedoston avaus ja läpikäynti silmukalla
-     f=open(filename,'r')
-     for line in f:
-         datalist.append(line)
-     trainer = ListTrainer(cb)
-     trainer.train(datalist)
-     
+        f=open(filename,'r')
+        for line in f:
+             datalist.append(line)
+        trainer = ListTrainer(cb)
+        trainer.train(datalist)
+     if file_extension==".pdf":
+         readPdfFile(file)
+         
     
      return render(request,'index.html')
+
+def readPdfFile(file):
+    reader = PdfReader(file)
+    totalPages=len(reader.pages)
+    print(totalPages)
+    #i silmukkamuuttujaa kasvatetaan, kunnes se on yhtä suuri kuin totalpages eli
+    #pdf tiedoston sivujen kokonaismäärä
+    for i in range(0,totalPages):
+        page = reader.pages[i]
+        text = page.extract_text()
+    txtToList=text.split()
+    cb=returnCB()
+    trainer = ListTrainer(cb)
+    trainer.train(txtToList)
+
 
 
 def discuss(request):
