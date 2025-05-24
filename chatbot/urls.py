@@ -17,7 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from bot.views import startingPage, uploadFile,trainBot,discuss,loadData
+from bot.views import startingPage, uploadFile,trainBot,discuss,loadData,getAdaptions
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,5 +26,6 @@ urlpatterns = [
     path('uploadfile/',uploadFile),
     path("trainbot/",trainBot),
     path('discuss/',discuss),
-    path('loadData/',loadData)
+    path('loadData/',loadData),
+    path('adaptions/',getAdaptions)
 ]

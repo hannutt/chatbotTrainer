@@ -1,21 +1,26 @@
 from datetime import datetime
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from chatterbot import ChatBot
 from chatterbot.trainers import ListTrainer
 import os,pathlib
 from django.core.files.storage import FileSystemStorage
 from pypdf import PdfReader
+from chatbot.cbVars import Variables
 # Create your views here.
+var=Variables()
 def startingPage(request):
     return render(request,"index.html")
 
-
-def returnCB():
-    cb=ChatBot('Norman',storage_adapter='chatterbot.storage.SQLStorageAdapter', database_uri='sqlite:///database.sqlite3')
-    return cb
-
 #tiedosto tuodaan frontista javascript input filen avulla ja talletetaan python funktion
 #avulla työkansioon.
+def getAdaptions(request):
+    mathCB=request.POST['math']
+    if mathCB:
+        var.adaptions=True
+    else:
+        print("no adaptions selected")
+    return redirect(startingPage)
+
 def uploadFile(request):
     file=request.FILES['uploadFile']
     fs = FileSystemStorage()
@@ -25,38 +30,38 @@ def uploadFile(request):
 
 #välittää käyttäjän syötteet botille harjoitusmateriaaliksi.
 def trainBot(request):
-    cb=returnCB()
     data=request.POST['data']
     #luodaan splitillä lista , merkillä erotetaan merkit omiksi alkioiksi
     datalist=data.split(",")
-    trainer=ListTrainer(cb)
+    trainer=ListTrainer(var.CbotNoAdaptions)
     trainer.train(datalist)
     
     return render(request,'index.html')
 
 #valitun tiedoston sisällön luku
 def loadData(request):
-     cb=returnCB()
      #valittu tiedosto
      file=request.FILES['loadfile']
      filestr=str(file)
      file_extension = pathlib.Path(filestr).suffix
      if file_extension==".txt":
-        fs = FileSystemStorage()
-     #valitun tiedoston tallennus juurikansioon
-        filename = fs.save(file.name,file)
-        datalist=[]
-     #tiedoston avaus ja läpikäynti silmukalla
-        f=open(filename,'r')
-        for line in f:
-             datalist.append(line)
-        trainer = ListTrainer(cb)
-        trainer.train(datalist)
+         readTxtFile(file)
      if file_extension==".pdf":
          readPdfFile(file)
-         
-    
-     return render(request,'index.html')
+     return redirect(startingPage)
+
+def readTxtFile(file):
+    fs = FileSystemStorage()
+     #valitun tiedoston tallennus juurikansioon
+    filename = fs.save(file.name,file)
+    datalist=[]
+     #tiedoston avaus ja läpikäynti silmukalla
+    f=open(filename,'r')
+    for line in f:
+        datalist.append(line)
+        trainer = ListTrainer(var.CbotNoAdaptions)
+        trainer.train(datalist)
+
 
 def readPdfFile(file):
     reader = PdfReader(file)
@@ -68,16 +73,19 @@ def readPdfFile(file):
         page = reader.pages[i]
         text = page.extract_text()
     txtToList=text.split()
-    cb=returnCB()
-    trainer = ListTrainer(cb)
+    trainer = ListTrainer(var.CbotNoAdaptions)
     trainer.train(txtToList)
 
 
 
 def discuss(request):
-     cb=returnCB()
-     talk=request.POST['talk']
-     resp = cb.get_response(talk)
-     context={'resp':resp}
+     if var.adaptions:
+         talk=request.POST['talk']
+         resp = var.cbMath.get_response(talk)
+         context={'resp':resp}
+     if var.adaptions==False:
+        talk=request.POST['talk']
+        resp = var.CbotNoAdaptions.get_response(talk)
+        context={'resp':resp}
      return render(request,'index.html',context)
     

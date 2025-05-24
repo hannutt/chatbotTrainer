@@ -6,77 +6,51 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <script type="text/javascript"
-        src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-</head>
+    <script src="{% static 'js/scripts.js' %}"></script>
+
 
 <body>
-    <span class="notranslate">
-        <h3>Chatbot Trainer</h3>
-    </span>
-    <div id="google_translate_element"></div>
-    <script type="text/javascript">
-        function googleTranslateElementInit() {
-            new google.translate.TranslateElement({ pageLanguage: 'en', layout: google.translate.TranslateElement.InlineLayout.HORIZONTAL }, 'google_translate_element');
-        }
-    </script>
-
-    <br>
+    <h3>Chatbot Trainer</h3>
+    <div>
+        <h4>Add Logic Adapters to your bot</h4>
+        <form method="post" action="/adaptions/">
+            {%csrf_token %}
+        <input type="checkbox" class="btn-check" id="math" name="math" autocomplete="off">
+        <label class="btn btn-primary" for="math">Mathematics</label>
+        <br>
+        <button class="btn btn-primary">Set</button>
+        </form>
+    </div>
     <center>
         <div>
-
             <p class="botAnswer">{{resp}}</p>
             <img src="/static/icons/robot256px.png" height="150" width="150">
         </div>
     </center>
     <div id="trainBot">
-        <span class="notranslate">
-            <h4>Train your bot</h4>
-        </span>
+
+        <h4>Train your bot</h4>
+
         <form method="post" action="/trainbot/" id="train">
-            <script>
-                $(function () {
-                    $("#train").submit(function (event) {
-                        // Stop form from submitting normally
-                        event.preventDefault();
-                        var trainForm = $(this);
-                        // Send the data using post
-                        var posting = $.post(trainForm.attr('action'), trainForm.serialize());
-                        // if success:
-                        posting.done(function (data) {
-                        });
-                        // if failure:
-                        posting.fail(function (data) {
-                            // 4xx or 5xx response, alert user about failure
-                        });
-                    });
-                });
-            </script>
             {%csrf_token %}
-            </span>
-            <span class="translate">
-                <textarea type="text" id="data" name="data"></textarea>
-            </span>
-            <span class="notranslate">
-                <input type="submit" value="Save">
-            </span>
+            <textarea type="text" id="data" name="data"></textarea>
+            <input type="submit" value="Save">
         </form>
+        <button onclick="translateText()">Translate</button>
     </div>
     <br>
     <form method="post" action="/loadData/" id="talkForm" enctype="multipart/form-data">
         {%csrf_token %}
         <input type="file" id="loadfile" name="loadfile">
-        <span class="notranslate">
-            <input type="submit" value="Load">
-        </span>
+
+        <input type="submit" value="Load">
+
     </form>
     <center>
         <form method="post" action="/discuss/">
             {%csrf_token %}
             <input type="text" name="talk" id="talk">
-            <span class="notranslate">
-                <input type="submit" value="Discuss">
-            </span>
+            <input type="submit" value="Discuss">
         </form>
     </center>
 
