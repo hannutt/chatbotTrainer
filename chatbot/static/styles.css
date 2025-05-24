@@ -8,3 +8,11 @@
 .robotAnswer{
     display: flex;
 }
+
+.discuss {
+    position: absolute;
+    top: 370px;
+    left:580px;
+    
+   
+}

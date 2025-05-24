@@ -6,21 +6,30 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/darkly/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+     <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
     <script src="{% static 'js/scripts.js' %}"></script>
 
 
 <body>
+    <center>
     <h3>Chatbot Trainer</h3>
-    <div>
-        <h4>Add Logic Adapters to your bot</h4>
+    </center>
+        <h4><u>Add Logic Adapters to your bot</u></h4>
         <form method="post" action="/adaptions/">
             {%csrf_token %}
-        <input type="checkbox" class="btn-check" id="math" name="math" autocomplete="off">
-        <label class="btn btn-primary" for="math">Mathematics</label>
+        <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="math" name="math" autocomplete="off">
+        <label class="form-check-label" for="math">Add Mathematical Evaluation Adapter</label>
         <br>
-        <button class="btn btn-primary">Set</button>
+         <input type="checkbox" class="form-check-input" id="math" name="math" autocomplete="off">
+        <label class="form-check-label" for="math">Add Time Logic Adapter</label>
+         <br><br>
+        <button class="btn btn-primary">Set Adapter</button>
+        </div>
+        
+       
         </form>
-    </div>
+    
     <center>
         <div>
             <p class="botAnswer">{{resp}}</p>
@@ -33,8 +42,8 @@
 
         <form method="post" action="/trainbot/" id="train">
             {%csrf_token %}
-            <textarea type="text" id="data" name="data"></textarea>
-            <input type="submit" value="Save">
+            <textarea class="form-control" rows="3" type="text" id="data" name="data"></textarea>
+            <input type="submit" value="Save" class="btn btn-primary">
         </form>
         <button onclick="translateText()">Translate</button>
     </div>
@@ -47,11 +56,13 @@
 
     </form>
     <center>
+        <div class="discuss">
         <form method="post" action="/discuss/">
             {%csrf_token %}
             <input type="text" name="talk" id="talk">
-            <input type="submit" value="Discuss">
+            <input type="submit" value="Discuss"  class="btn btn-primary">
         </form>
+        </div>
     </center>
 
     </form>
