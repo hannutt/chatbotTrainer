@@ -5,9 +5,9 @@ async function translateText() {
         method: "POST",
         body: JSON.stringify({
             q: data,
-            source: "en",
+            source: splitted[0],
             //kieli johon käännetään on käyttäjän valitsema ja se on talletettu state muuttujaan
-            target: "es",
+            target: splitted[1],
 
         }),
         headers: { "Content-Type": "application/json" }
@@ -34,3 +34,23 @@ $(function () {
         });
     });
 });
+
+function showTranslateOpt(cb) {
+    if (cb) {
+        document.getElementById("translateBtn").hidden = false
+        document.getElementById("languages").hidden = false
+    }
+    if (cb.checked == false) {
+        document.getElementById("translateBtn").hidden = true
+        document.getElementById("languages").hidden = true
+    }
+
+}
+var splitted=[]
+//select elementissä valittu teksti
+function getLanguages(lang) {
+    var langPairs=lang.options[lang.selectedIndex].text
+    splitted=langPairs.split('-')
+    console.log(splitted)
+
+}

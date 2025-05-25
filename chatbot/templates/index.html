@@ -18,10 +18,10 @@
         <form method="post" action="/adaptions/">
             {%csrf_token %}
         <div class="form-check">
-        <input type="checkbox" class="form-check-input" id="math" name="math" autocomplete="off">
+        <input type="checkbox" class="form-check-input" id="math" name="adaptions" value="math" autocomplete="off">
         <label class="form-check-label" for="math">Add Mathematical Evaluation Adapter</label>
         <br>
-         <input type="checkbox" class="form-check-input" id="math" name="math" autocomplete="off">
+         <input type="checkbox" class="form-check-input" id="time" name="adaptions" value="time" autocomplete="off">
         <label class="form-check-label" for="math">Add Time Logic Adapter</label>
          <br><br>
         <button class="btn btn-primary">Set Adapter</button>
@@ -45,7 +45,16 @@
             <textarea class="form-control" rows="3" type="text" id="data" name="data"></textarea>
             <input type="submit" value="Save" class="btn btn-primary">
         </form>
-        <button onclick="translateText()">Translate</button>
+        <div class="form-check">
+        <input type="checkbox" class="form-check-input" id="translateOptions" name="translateOptions" autocomplete="off" onchange="showTranslateOpt(document.getElementById('translateOptions'))">
+        <label class="form-check-label" for="math">Show translate options</label>
+        <select id="languages" hidden onchange="getLanguages(this)">
+            <option>Select</option>
+            <option>en-es</option>
+            <option>en-fr</option> 
+        </select>
+        <button id="translateBtn" hidden onclick="translateText()">Translate</button>
+        </div>
     </div>
     <br>
     <form method="post" action="/loadData/" id="talkForm" enctype="multipart/form-data">
@@ -55,17 +64,17 @@
         <input type="submit" value="Load">
 
     </form>
-    <center>
-        <div class="discuss">
+  
+        <center>
+        <div>
         <form method="post" action="/discuss/">
             {%csrf_token %}
             <input type="text" name="talk" id="talk">
             <input type="submit" value="Discuss"  class="btn btn-primary">
         </form>
         </div>
-    </center>
-
-    </form>
+        </center>
+   
 
 </body>
 

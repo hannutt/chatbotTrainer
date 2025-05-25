@@ -11,16 +11,23 @@ var=Variables()
 def startingPage(request):
     return render(request,"index.html")
 
-#tiedosto tuodaan frontista javascript input filen avulla ja talletetaan python funktion
-#avulla työkansioon.
+
 def getAdaptions(request):
-    mathCB=request.POST['math']
-    if mathCB:
+    #haetaan adaption name attribuutilla nimettyjen valitun checkboksin value attribuutti
+    #selection on lista.
+    var.selection=request.POST.getlist('adaptions')
+    print(var.selection[0])
+    
+    if var.selection[0]=='math' or var.selection[0]=='time':
         var.adaptions=True
     else:
         print("no adaptions selected")
+    
     return redirect(startingPage)
+    
 
+#tiedosto tuodaan frontista javascript input filen avulla ja talletetaan python funktion
+#avulla työkansioon.
 def uploadFile(request):
     file=request.FILES['uploadFile']
     fs = FileSystemStorage()
@@ -79,13 +86,16 @@ def readPdfFile(file):
 
 
 def discuss(request):
-     if var.adaptions:
-         talk=request.POST['talk']
+     talk=request.POST['talk']
+     context={}
+     if var.adaptions and var.selection[0]=="math":
          resp = var.cbMath.get_response(talk)
-         context={'resp':resp}
+         context['resp']=resp
+     if var.adaptions and var.selection[0]=="time":
+         resp=var.cbTime.get_response(talk)
+         context['resp']=resp
      if var.adaptions==False:
-        talk=request.POST['talk']
         resp = var.CbotNoAdaptions.get_response(talk)
-        context={'resp':resp}
+        context['resp']=resp
      return render(request,'index.html',context)
     
