@@ -33,3 +33,10 @@
     bottom: 150px;
 
 }
+
+.fileTraining {
+    position: relative;
+    display: flex;
+    bottom: 100px;
+
+}

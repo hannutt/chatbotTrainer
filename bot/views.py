@@ -1,7 +1,7 @@
 from datetime import datetime
 from django.shortcuts import redirect, render
 from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ListTrainer,ChatterBotCorpusTrainer
 import os,pathlib
 from django.core.files.storage import FileSystemStorage
 from pypdf import PdfReader
@@ -17,9 +17,12 @@ def getAdaptions(request):
     #selection on lista.
     var.selection=request.POST.getlist('adaptions')
     print(var.selection[0])
-    
+    #jos jokin adapteri otetaan käyttöön
     if var.selection[0]=='maths' or var.selection[0]=='times':
         var.adaptions=True
+    #jos adapterit poistetaan käytöstä
+    elif var.selection[0]=='noAdapters':
+        var.adaptions=False
     else:
         
         print("no adaptions selected")

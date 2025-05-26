@@ -18,6 +18,27 @@ async function translateText() {
 
 }
 
+async function availableLangs() {
+    const res = await fetch("http://127.0.0.1:5000/languages")
+        .then(res => {
+            return res.json()
+        })
+        .then(data => {
+            data[0].targets.forEach(d => {
+                const opt = document.createElement("option")
+                const linebreak = document.createElement("br")
+                opt.innerText = "en-"+d
+                document.getElementById("languages").appendChild(opt)
+                document.getElementById("languages").appendChild(linebreak)
+
+            });
+
+        })
+
+
+
+}
+
 $(function () {
     $("#train").submit(function (event) {
         // Stop form from submitting normally
@@ -59,7 +80,7 @@ function removeAdapters(cb, math, time) {
     if (cb) {
         document.getElementById(math).checked = false
         document.getElementById(time).checked = false
-        document.getElementById("delAdaptions").checked=false
+        document.getElementById("delAdaptions").checked = false
 
     }
 
