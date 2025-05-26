@@ -17,3 +17,7 @@ For example, a user can create a chatbot that speaks Spanish, even if the user d
 USING LOGIC ADAPTERS
 
 The application also allows you to simply chat with the chatbot. If desired, the user can choose which logic adapters they want to use to help with the conversation. The logic adapters are listed on the html page and can be selected by clicking on the checkbox element of the desired adapter.
+
+Example image where the user has selected the Mathematical Evaluation Adapter and asks the bot for the result of a simple addition calculation.
+
+![alt text](chatbot/static/icons/cbfront.png)

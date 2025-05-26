@@ -1,11 +1,35 @@
 .botAnswer {
+    position: relative;
     background-color: whitesmoke;
     width: 20%;
     color: black;
     font-size: larger;
-    
+    top: 50px;
+
 }
-.robotAnswer{
+
+.robotAnswer {
     display: flex;
 }
 
+
+.talk {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    bottom: 315px;
+}
+
+.textAreaTrain {
+    position: relative;
+    bottom: 150px;
+
+}
+
+.botimg {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    bottom: 150px;
+
+}

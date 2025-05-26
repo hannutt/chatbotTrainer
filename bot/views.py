@@ -18,9 +18,10 @@ def getAdaptions(request):
     var.selection=request.POST.getlist('adaptions')
     print(var.selection[0])
     
-    if var.selection[0]=='math' or var.selection[0]=='time':
+    if var.selection[0]=='maths' or var.selection[0]=='times':
         var.adaptions=True
     else:
+        
         print("no adaptions selected")
     
     return redirect(startingPage)
@@ -88,13 +89,13 @@ def readPdfFile(file):
 def discuss(request):
      talk=request.POST['talk']
      context={}
-     if var.adaptions and var.selection[0]=="math":
+     if var.adaptions and var.selection[0]=="maths":
          resp = var.cbMath.get_response(talk)
          context['resp']=resp
-     if var.adaptions and var.selection[0]=="time":
+     elif var.adaptions and var.selection[0]=="times":
          resp=var.cbTime.get_response(talk)
          context['resp']=resp
-     if var.adaptions==False:
+     elif var.adaptions==False:
         resp = var.CbotNoAdaptions.get_response(talk)
         context['resp']=resp
      return render(request,'index.html',context)

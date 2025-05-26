@@ -46,11 +46,21 @@ function showTranslateOpt(cb) {
     }
 
 }
-var splitted=[]
+var splitted = []
 //select elementissä valittu teksti
 function getLanguages(lang) {
-    var langPairs=lang.options[lang.selectedIndex].text
-    splitted=langPairs.split('-')
+    var langPairs = lang.options[lang.selectedIndex].text
+    splitted = langPairs.split('-')
     console.log(splitted)
+
+}
+
+function removeAdapters(cb, math, time) {
+    if (cb) {
+        document.getElementById(math).checked = false
+        document.getElementById(time).checked = false
+        document.getElementById("delAdaptions").checked=false
+
+    }
 
 }
