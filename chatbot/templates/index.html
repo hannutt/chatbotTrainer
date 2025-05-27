@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{% static 'styles.css' %}">
     <link rel="stylesheet" href="{% static 'bootstrap.css' %}">
     <script src="{% static 'js/scripts.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"
+        integrity="sha512-csNcFYJniKjJxRWRV1R7fvnXrycHP6qDR21mgz1ZP55xY5d+aHLfo9/FcGDQLfn2IfngbAHd8LdfsagcCqgTcQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 
 <body onload="availableLangs()">
@@ -48,19 +51,21 @@
             <textarea rows="4" cols="40" type="text" id="data" name="data"></textarea>
             <br>
             <input type="submit" value="Save" class="btn btn-primary">
-            <input type="checkbox" id="translateOptions" name="translateOptions" autocomplete="off"
-                onchange="showTranslateOpt(document.getElementById('translateOptions'))">
-            <label class="form-check-label" for="math">Show translate options</label>
-          
-            </select>
-            <select id="languages" hidden onchange="getLanguages(this)">
-
-            </select>
-            <button id="translateBtn" class="btn btn-primary" hidden onclick="translateText()">Translate</button>
-            <br><br>
-            <h4>Upload training data file</h4>
-        </div>
     </form>
+    <br><br>
+    <div>
+        <input type="checkbox" id="translateOptions" name="translateOptions" autocomplete="off"
+            onchange="showTranslateOpt(document.getElementById('translateOptions'))">
+        <label for="translateOptions">Show translate options</label>
+        <select id="languages" hidden onchange="getLanguages(this)"></select>
+        <button id="translateBtn" class="btn btn-primary" hidden onclick="translateText()">Translate</button>
+    </div>
+
+    <h4>Upload training data file</h4>
+    </div>
+
+
+    <button onclick="openTextFile()">translate file</button>
 
     <div class="fileTraining">
 

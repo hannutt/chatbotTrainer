@@ -17,7 +17,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    bottom: 315px;
+    bottom: 329px;
 }
 
 .textAreaTrain {
@@ -37,6 +37,6 @@
 .fileTraining {
     position: relative;
     display: flex;
-    bottom: 100px;
+    bottom: 110px;
 
 }

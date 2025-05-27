@@ -10,7 +10,7 @@ READING DATA FROM A PDF FILE
 
 PDF files are read using the PyPDF library. After reading the PDF file, the file data is processed in the same way as in the text file option.
 
-TRANSLATING TRAINING DATA INTO ANOTHER LANGUAGE
+TRANSLATE USER-ENTERED TRAINING DATA INTO ANOTHER LANGUAGE
 
 For example, a user can create a chatbot that speaks Spanish, even if the user does not know how to write Spanish. The application uses the LibreTranslate API to translate training data from the original language to the desired language. The translation is done using a JavaScript function that sends the original text to the LibreTranslate API using the Fetch method and ultimately receives the translated result. The translated result is placed in a textarea element, which the user can send to the chatterbot as training material by clicking the button element.
 
@@ -23,6 +23,11 @@ Example image where a user has translated the English sentences "How are you" an
 The sentences are then given to the chatbot as training data. The following image shows that the chatbot is able to respond using the training data entered in French when the question is asked in French.
 
 ![alt text](chatbot/static/icons/french_conversation.png)
+
+TRANSLATING TRAINING DATA FILE INTO ANOTHER LANGUAGE
+
+The text content of the files can also be translated into the desired language and fed to the chatbot as training data. For now, this feature only works with .txt files. To rewrite a text file in another language, the application uses the JavaScript FileSaver library. (https://github.com/eligrey/FileSaver.js)
+
 
 USING LOGIC ADAPTERS
 

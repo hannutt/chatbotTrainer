@@ -5,9 +5,9 @@ async function translateText() {
         method: "POST",
         body: JSON.stringify({
             q: data,
-            source: splitted[0],
+            source: langPairs[0],
             //kieli johon käännetään on käyttäjän valitsema ja se on talletettu state muuttujaan
-            target: splitted[1],
+            target: langPairs[1],
 
         }),
         headers: { "Content-Type": "application/json" }
@@ -17,6 +17,39 @@ async function translateText() {
     document.getElementById("data").value = translated.translatedText
 
 }
+var filetext = ""
+function openTextFile() {
+    fetch('/static/js/lttext.txt')
+        .then(response => response.text())
+        .then(text => {
+            filetext = text
+            translateFileContent(filetext)
+            
+        })
+        
+}
+async function translateFileContent(filetext) {
+    const res = await fetch("http://127.0.0.1:5000/translate", {
+        method: "POST",
+        body: JSON.stringify({
+            q: filetext,
+            source: langPairs[0],
+            target: langPairs[1],
+
+        }),
+        headers: { "Content-Type": "application/json" }
+
+    });
+     var translated = await res.json()
+  
+       var blob = new Blob([translated.translatedText], {
+            type: "text/plain;charset=utf-8",
+         });
+         saveAs(blob, "lttext.txt");
+
+}
+
+
 
 async function availableLangs() {
     const res = await fetch("http://127.0.0.1:5000/languages")
@@ -24,10 +57,15 @@ async function availableLangs() {
             return res.json()
         })
         .then(data => {
+            console.log(data)
+            //[0].targets on json-vastauksen property, josta saadaan kielet, joita api tukee
             data[0].targets.forEach(d => {
+                //luodaan <option> ja <br> tagit
                 const opt = document.createElement("option")
                 const linebreak = document.createElement("br")
-                opt.innerText = "en-"+d
+                //option tagin teksti d on silmukkamuuttuja
+                opt.innerText = "en-" + d
+                //lisätään languages id:llä nimettyyn options valikkoon
                 document.getElementById("languages").appendChild(opt)
                 document.getElementById("languages").appendChild(linebreak)
 
@@ -67,21 +105,13 @@ function showTranslateOpt(cb) {
     }
 
 }
-var splitted = []
+var langPairs = []
 //select elementissä valittu teksti
 function getLanguages(lang) {
-    var langPairs = lang.options[lang.selectedIndex].text
-    splitted = langPairs.split('-')
-    console.log(splitted)
+    var pairs = lang.options[lang.selectedIndex].text
+    langPairs = pairs.split('-')
+    console.log(langPairs)
 
 }
 
-function removeAdapters(cb, math, time) {
-    if (cb) {
-        document.getElementById(math).checked = false
-        document.getElementById(time).checked = false
-        document.getElementById("delAdaptions").checked = false
 
-    }
-
-}
